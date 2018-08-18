@@ -1,10 +1,12 @@
 ﻿Imports Microsoft.Office.Interop
+'
+'See https://support.microsoft.com/en-us/help/302094/how-to-automate-excel-from-visual-basic-net-to-fill-or-to-obtain-data
+'
 Public Class Form1
     'Keep the application object and the workbook object global, so you can  
     'retrieve the data in Button2_Click that was set in Button1_Click.
     Dim objApp As Excel.Application
     Dim objBook As Excel._Workbook
-
 
     Private Sub Button1_Click(ByVal sender As System.Object,
       ByVal e As System.EventArgs) Handles Button1.Click
@@ -52,7 +54,6 @@ Public Class Form1
             Dim iCol As Long
             For iRow = 0 To 5
                 For iCol = 0 To 5
-
                     'Put the row and column address in the cell.
                     saRet(iRow, iCol) = iRow.ToString() + "|" + iCol.ToString()
                 Next iCol
@@ -83,7 +84,6 @@ Public Class Form1
         On Error GoTo ExcelNotRunning
         objSheets = objBook.Worksheets
         objSheet = objSheets(1)
-
 ExcelNotRunning:
         If (Not (Err.Number = 0)) Then
             MessageBox.Show("Cannot find the Excel workbook.  Try clicking Button1 to " +
