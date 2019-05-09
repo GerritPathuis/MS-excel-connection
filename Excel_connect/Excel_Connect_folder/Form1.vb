@@ -8,12 +8,13 @@ Public Class Form1
     Dim objApp As Excel.Application
     Dim objBook As Excel._Workbook
 
+    Dim objBooks As Excel.Workbooks
+    Dim objSheets As Excel.Sheets
+    Dim objSheet As Excel._Worksheet
+    Dim range As Excel.Range
+
     Private Sub Button1_Click(ByVal sender As System.Object,
       ByVal e As System.EventArgs) Handles Button1.Click
-        Dim objBooks As Excel.Workbooks
-        Dim objSheets As Excel.Sheets
-        Dim objSheet As Excel._Worksheet
-        Dim range As Excel.Range
 
         ' Create a new instance of Excel and start a new workbook.
         objApp = New Excel.Application()
