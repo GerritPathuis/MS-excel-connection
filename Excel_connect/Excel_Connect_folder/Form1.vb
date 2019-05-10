@@ -8,12 +8,13 @@ Public Class Form1
     Dim objApp As Excel.Application
     Dim objBook As Excel._Workbook
 
+    Dim objBooks As Excel.Workbooks
+    Dim objSheets As Excel.Sheets
+    Dim objSheet As Excel._Worksheet
+    Dim range As Excel.Range
+
     Private Sub Button1_Click(ByVal sender As System.Object,
       ByVal e As System.EventArgs) Handles Button1.Click
-        Dim objBooks As Excel.Workbooks
-        Dim objSheets As Excel.Sheets
-        Dim objSheet As Excel._Worksheet
-        Dim range As Excel.Range
 
         ' Create a new instance of Excel and start a new workbook.
         objApp = New Excel.Application()
@@ -134,5 +135,22 @@ ExcelNotRunning:
         range = Nothing
         objSheet = Nothing
         objSheets = Nothing
+    End Sub
+    'Procedure for making page settings of an Excel file
+    'Excel dosyasının sayfa ayarlarını yapma prosedürü
+    Sub pageSetup(lMargin As Integer, rMargin As Integer, bMargin As Integer, tMargin As Integer, direction As Integer, fit As Boolean, fitH As Boolean, fitV As Boolean, centerV As Boolean, centerH As Boolean)
+        'PageSetup------------------------
+        With objSheet.PageSetup
+            If direction = 0 Then .Orientation = objApp.XlPageOrientation.xlLandscape Else .Orientation = objApp.XlPageOrientation.xlPortrait
+            .LeftMargin = lMargin
+            .RightMargin = rMargin
+            .BottomMargin = bMargin
+            .TopMargin = tMargin
+            .CenterHorizontally = centerH
+            .CenterVertically = centerV
+            .FitToPagesTall = fitV
+            .FitToPagesWide = fitH
+        End With
+        '-------------------------------------------
     End Sub
 End Class
