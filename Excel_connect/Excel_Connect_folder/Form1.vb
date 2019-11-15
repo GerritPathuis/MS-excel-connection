@@ -25,43 +25,25 @@ Public Class Form1
         'Get the range where the starting cell has the address
         'm_sStartingCell and its dimensions are m_iNumRows x m_iNumCols.
         range = objSheet.Range("A1", Reflection.Missing.Value)
-        range = range.Resize(5, 5)
+        range = range.Resize(5, 1)
 
-        If (Me.FillWithStrings.Checked = False) Then
-            'Create an array.
-            Dim saRet(5, 5) As Double
 
-            'Fill the array.
-            Dim iRow As Long
+        'Create an array.
+        Dim saRet(5, 1) As String
+
+        'Fill the array.
+        Dim iRow As Long
             Dim iCol As Long
             For iRow = 0 To 5
-                For iCol = 0 To 5
-
-                    'Put a counter in the cell.
-                    saRet(iRow, iCol) = iRow * iCol
-                Next iCol
-            Next iRow
+            For iCol = 0 To 1
+                'Put the row and column address in the cell.
+                saRet(iRow, iCol) = iRow.ToString() + "|" + iCol.ToString()
+            Next iCol
+        Next iRow
 
             'Set the range value to the array.
             range.Value = saRet
 
-        Else
-            'Create an array.
-            Dim saRet(5, 5) As String
-
-            'Fill the array.
-            Dim iRow As Long
-            Dim iCol As Long
-            For iRow = 0 To 5
-                For iCol = 0 To 5
-                    'Put the row and column address in the cell.
-                    saRet(iRow, iCol) = iRow.ToString() + "|" + iCol.ToString()
-                Next iCol
-            Next iRow
-
-            'Set the range value to the array.
-            range.Value = saRet
-        End If
 
         'Return control of Excel to the user.
         objApp.Visible = True

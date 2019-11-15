@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class Form1
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,11 +20,10 @@ Partial Class Form1
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Button2 = New System.Windows.Forms.Button()
-        Me.FillWithStrings = New System.Windows.Forms.CheckBox()
         Me.SuspendLayout()
         '
         'Button1
@@ -45,32 +44,19 @@ Partial Class Form1
         Me.Button2.Text = "Button2"
         Me.Button2.UseVisualStyleBackColor = True
         '
-        'FillWithStrings
-        '
-        Me.FillWithStrings.AutoSize = True
-        Me.FillWithStrings.Location = New System.Drawing.Point(109, 37)
-        Me.FillWithStrings.Name = "FillWithStrings"
-        Me.FillWithStrings.Size = New System.Drawing.Size(92, 17)
-        Me.FillWithStrings.TabIndex = 3
-        Me.FillWithStrings.Text = "FillWithStrings"
-        Me.FillWithStrings.UseVisualStyleBackColor = True
-        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(303, 171)
-        Me.Controls.Add(Me.FillWithStrings)
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.Button1)
         Me.Name = "Form1"
         Me.Text = "Connect to Excel"
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
 
     Friend WithEvents Button1 As Button
     Friend WithEvents Button2 As Button
-    Friend WithEvents FillWithStrings As CheckBox
 End Class
