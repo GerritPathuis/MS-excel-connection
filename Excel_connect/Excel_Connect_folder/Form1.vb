@@ -21,7 +21,7 @@ Public Class Form1
             .Columns(1).HeaderText = "H2"
             .Columns(2).HeaderText = "H3"
 
-            For i = 0 To 3
+            For i = 0 To .RowCount - 1
                 .Rows(i).Cells(0).Value = "00"
                 .Rows(i).Cells(1).Value = "01"
                 .Rows(i).Cells(2).Value = "02"
@@ -153,20 +153,20 @@ Public Class Form1
         xlApp = New Excel.Application
         xlBook = xlApp.Workbooks.Open(Filename:="C:\Repos\MS-excel-connection\Excel_connect\Typical_PSD.xlsx", IgnoreReadOnlyRecommended:=True, ReadOnly:=False, Editable:=True)
         xlSheet = xlBook.Worksheets(1)
-        If DataGridView1.DataSource IsNot Nothing Then
-            Dim i, j As Integer
+        '  If DataGridView1.DataSource IsNot Nothing Then
+        Dim i, j As Integer
             For i = 1 To DataGridView1.RowCount - 1
                 For j = 1 To DataGridView1.ColumnCount
-                    xlSheet.Cells(i + 1, j) = DataGridView1.Rows(i - 1).Cells(j - 1).Value
-                Next
+                xlSheet.Cells(i + 1, j) = "33"  ' DataGridView1.Rows(i - 1).Cells(j - 1).Value
+            Next
             Next
             xlApp.Visible = True
             xlApp.UserControl = True
             xlApp.Quit()
             xlApp = Nothing
-        Else
-            MsgBox("Le tableau est vide")
-        End If
+        'Else
+        '    MsgBox("Le tableau est vide")
+        'End If
     End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
