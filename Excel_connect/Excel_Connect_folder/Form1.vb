@@ -109,26 +109,18 @@ Public Class Form1
             xlWorkBook = xlApp.Workbooks.Open(xl_filename, IgnoreReadOnlyRecommended:=True, ReadOnly:=False, Editable:=True)
             xlSheet = xlWorkBook.Worksheets(1)
 
-            range = xlSheet.Range("A2", "B15")      'Get a range of data.
-            saRet = range.Value                     'Retrieve the data from the range.
-
-            'Determine the dimensions of the array.
-            Dim iRows As Long
-            Dim iCols As Long
-            iRows = saRet.GetUpperBound(0)
-            iCols = saRet.GetUpperBound(1)
+            range = xlSheet.Range("A2", "B14")          'Get a range of data.
+            saRet = range.Value                         'Retrieve the data from the range.
 
             '---- Write the retrieved data to the DGV -----
             With DataGridView2
                 .Rows.Clear()
-                .Rows.Add(iCols)       'Resize the dgv
-
-                Dim rowC, colC As Integer
-                For rowCounter = 1 To iRows
-                    For colCounter = 1 To iCols
-                        .Rows(rowC).Cells(colC).Value = saRet(rowC, colC)
-                    Next colCounter
-                Next rowCounter
+                .Rows.Add(saRet.GetUpperBound(0))       'Resize the dgv
+                For rowC = 1 To saRet.GetUpperBound(0)
+                    For colC = 1 To saRet.GetUpperBound(1)
+                        .Rows(rowC - 1).Cells(colC - 1).Value = saRet(rowC, colC)
+                    Next
+                Next
             End With
         Else
             MsgBox("File does not exist")
@@ -139,7 +131,9 @@ Public Class Form1
         xlSheet = Nothing
         objSheets = Nothing
     End Sub
-
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        DGV_to_file()
+    End Sub
     Private Sub DGV_to_file()
         Dim xlApp As Excel.Application
         Dim xlBook As Excel.Workbook
@@ -164,9 +158,7 @@ Public Class Form1
         'End If
     End Sub
 
-    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
-        DGV_to_file()
-    End Sub
+
 
 
 End Class

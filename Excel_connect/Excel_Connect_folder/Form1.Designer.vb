@@ -125,7 +125,7 @@ Partial Class Form1
         Me.GroupBox1.Size = New System.Drawing.Size(371, 335)
         Me.GroupBox1.TabIndex = 6
         Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "Retrieve"
+        Me.GroupBox1.Text = "Retrieve PSD"
         '
         'GroupBox2
         '
@@ -136,13 +136,13 @@ Partial Class Form1
         Me.GroupBox2.Size = New System.Drawing.Size(307, 328)
         Me.GroupBox2.TabIndex = 7
         Me.GroupBox2.TabStop = False
-        Me.GroupBox2.Text = "Save"
+        Me.GroupBox2.Text = "Save PSD"
         '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(725, 428)
+        Me.ClientSize = New System.Drawing.Size(769, 428)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.Button3)
