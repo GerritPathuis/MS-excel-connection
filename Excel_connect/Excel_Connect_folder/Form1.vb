@@ -5,15 +5,7 @@
 
 
 Public Class Form1
-    'Keep the application object and the workbook object global, so you can  
-    'retrieve the data in Button2_Click that was set in Button1_Click.
     'https://social.msdn.microsoft.com/Forums/vstudio/en-US/03d76f3d-b91a-4707-89ce-ab752c6823e2/excel-workbook-problem-in-vbnet?forum=exceldev
-    ReadOnly xlApp As Excel.Application
-    ReadOnly xlbook As Excel.Workbook
-    'ReadOnly xlbooks As Excel.Workbooks
-    'ReadOnly xlSheets As Excel.Sheets
-
-
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         With DataGridView1
@@ -44,7 +36,6 @@ Public Class Form1
             .Columns(2).HeaderText = "H3"
         End With
     End Sub
-
 
     Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
         OpenFileDialog1.Title = "Please select a PSD file"
@@ -97,12 +88,9 @@ Public Class Form1
         'Return control of Excel to the user.
         xlApp.Visible = True
         xlApp.UserControl = True
-
-        'Clean up a little.
-        'range = Nothing
-        'xlSheet = Nothing
-        'xlSheets = Nothing
-        'xlBooks = Nothing
+        xlBook.Close(SaveChanges:=True)
+        xlApp.Quit()
+        xlApp = Nothing
     End Sub
 
     Private Sub Retrieve_xls_file(xl_filename As String)
@@ -115,6 +103,7 @@ Public Class Form1
         If My.Computer.FileSystem.FileExists(xl_filename) Then
             xlApp = New Excel.Application
             xlBook = xlApp.Workbooks.Open(xl_filename, IgnoreReadOnlyRecommended:=True, ReadOnly:=False, Editable:=True)
+
             xlSheet = CType(xlBook.ActiveSheet, Excel.Worksheet)
             xlSheet.Name = "Retrieve_xls_file"
 
@@ -123,11 +112,8 @@ Public Class Form1
 
             '---- Lose the empty cells --
             Dim colcnt As Integer
-            Dim st As String
-
             For rowC = 1 To saRet.GetUpperBound(0)
-                st = saRet(rowC, 1).ToString()
-                If st.Length > 0 Then
+                If Not IsNothing(saRet(rowC, 1)) Then
                     colcnt += 1
                 End If
             Next
@@ -144,14 +130,11 @@ Public Class Form1
             End With
 
             xlBook.Close(SaveChanges:=False)
+            xlApp.Quit()
+            xlApp = Nothing
         Else
             MsgBox("File does not exist")
         End If
-
-        'Clean up a little.
-        'range = Nothing
-        'xlSheet = Nothing
-        'xlSheets = Nothing
     End Sub
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
         DGV_to_file()
@@ -175,6 +158,7 @@ Public Class Form1
                     xlSheet.Cells(i + 1, j) = "33"  ' DataGridView1.Rows(i - 1).Cells(j - 1).Value
                 Next
             Next
+            xlBook.Close(SaveChanges:=True)
         Else
             MsgBox("File does not exist")
         End If
