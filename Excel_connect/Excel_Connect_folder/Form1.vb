@@ -7,8 +7,11 @@
 Public Class Form1
     'Keep the application object and the workbook object global, so you can  
     'retrieve the data in Button2_Click that was set in Button1_Click.
-    Dim objApp As Excel.Application
-    Dim objBook As Excel._Workbook
+    'https://social.msdn.microsoft.com/Forums/vstudio/en-US/03d76f3d-b91a-4707-89ce-ab752c6823e2/excel-workbook-problem-in-vbnet?forum=exceldev
+    Dim xlApp As Excel.Application
+    Dim xlbook As Excel._Workbook
+    ReadOnly xlbooks As Excel.Workbooks
+    ReadOnly xlSheets As Excel.Sheets
 
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -60,21 +63,21 @@ Public Class Form1
     End Sub
 
     Private Sub Save_excel_file()
-        Dim objBooks As Excel.Workbooks
-        Dim objSheets As Excel.Sheets
-        Dim objSheet As Excel._Worksheet
+        Dim xlBooks As Excel.Workbooks
+        Dim xlSheets As Excel.Sheets
+        Dim xlSheet As Excel._Worksheet
         Dim range As Excel.Range
 
         ' Create a new instance of Excel and start a new workbook.
-        objApp = New Excel.Application()
-        objBooks = objApp.Workbooks
-        objBook = objBooks.Add
-        objSheets = objBook.Worksheets
-        objSheet = objSheets(1)
+        xlApp = New Excel.Application()
+        xlBooks = xlApp.Workbooks
+        xlbook = xlbooks.Add
+        xlSheets = xlbook.Worksheets
+        xlSheet = xlSheets(1)
 
         'Get the range where the starting cell has the address
         'm_sStartingCell and its dimensions are m_iNumRows x m_iNumCols.
-        range = objSheet.Range("A1", Reflection.Missing.Value)
+        range = xlSheet.Range("A1", Reflection.Missing.Value)
         range = range.Resize(15, 2)
 
         'Create an array.
@@ -91,23 +94,22 @@ Public Class Form1
         range.Value = saRet
 
         'Return control of Excel to the user.
-        objApp.Visible = True
-        objApp.UserControl = True
+        xlApp.Visible = True
+        xlApp.UserControl = True
 
         'Clean up a little.
         range = Nothing
-        objSheet = Nothing
-        objSheets = Nothing
-        objBooks = Nothing
+        xlSheet = Nothing
+        xlSheets = Nothing
+        xlBooks = Nothing
     End Sub
 
     Private Sub Retrieve_xls_file(xl_filename As String)
         Dim xlApp As New Excel.Application
         Dim xlWorkBook As Excel.Workbook
-        Dim objSheets As Excel.Sheets
+        Dim xlSheets As Excel.Sheets
         Dim xlSheet As Excel._Worksheet
         Dim range As Excel.Range
-        'Dim xl_filename As String = "C:\Repos\MS-excel-connection\Excel_connect\Typical_PSD2.xlsx"
         Dim saRet As Object(,)
 
         If My.Computer.FileSystem.FileExists(xl_filename) Then
@@ -145,7 +147,7 @@ Public Class Form1
         'Clean up a little.
         range = Nothing
         xlSheet = Nothing
-        objSheets = Nothing
+        xlSheets = Nothing
     End Sub
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
         DGV_to_file()
