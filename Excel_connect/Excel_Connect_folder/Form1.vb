@@ -41,13 +41,22 @@ Public Class Form1
             .Columns(2).HeaderText = "H3"
         End With
     End Sub
+
+
+    Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
+        OpenFileDialog1.Title = "Please select a PSD file"
+        OpenFileDialog1.InitialDirectory = "C:\Repos\MS-excel-connection\Excel_connect\"
+        OpenFileDialog1.Filter = "PSD Files|*.xlsx"
+        OpenFileDialog1.FileName = "PSD_*.xlsx"
+
+        If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
+            Retrieve_xls_file(OpenFileDialog1.FileName)
+        End If
+    End Sub
+
     Private Sub Button1_Click(ByVal sender As System.Object,
       ByVal e As System.EventArgs) Handles Button1.Click
         Save_excel_file()
-    End Sub
-
-    Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
-        Retrieve_file()
     End Sub
 
     Private Sub Save_excel_file()
@@ -95,13 +104,13 @@ Public Class Form1
         objBooks = Nothing
     End Sub
 
-    Private Sub Retrieve_file()
+    Private Sub Retrieve_xls_file(xl_filename As String)
         Dim xlApp As New Excel.Application
         Dim xlWorkBook As Excel.Workbook
         Dim objSheets As Excel.Sheets
         Dim xlSheet As Excel._Worksheet
         Dim range As Excel.Range
-        Dim xl_filename As String = "C:\Repos\MS-excel-connection\Excel_connect\Typical_PSD2.xlsx"
+        'Dim xl_filename As String = "C:\Repos\MS-excel-connection\Excel_connect\Typical_PSD2.xlsx"
         Dim saRet As Object(,)
 
         If My.Computer.FileSystem.FileExists(xl_filename) Then
@@ -130,6 +139,8 @@ Public Class Form1
                     Next
                 Next
             End With
+
+            xlWorkBook.Close(SaveChanges:=False)
         Else
             MsgBox("File does not exist")
         End If
