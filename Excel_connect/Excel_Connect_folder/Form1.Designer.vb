@@ -44,9 +44,9 @@ Partial Class Form1
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(91, 18)
+        Me.Button1.Location = New System.Drawing.Point(12, 12)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(139, 36)
+        Me.Button1.Size = New System.Drawing.Size(680, 36)
         Me.Button1.TabIndex = 0
         Me.Button1.Text = "Save excel file"
         Me.Button1.UseVisualStyleBackColor = True
@@ -62,7 +62,7 @@ Partial Class Form1
         '
         'Button3
         '
-        Me.Button3.Location = New System.Drawing.Point(51, 370)
+        Me.Button3.Location = New System.Drawing.Point(79, 19)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(139, 42)
         Me.Button3.TabIndex = 3
@@ -121,7 +121,7 @@ Partial Class Form1
         '
         Me.GroupBox1.Controls.Add(Me.DataGridView2)
         Me.GroupBox1.Controls.Add(Me.Button2)
-        Me.GroupBox1.Location = New System.Drawing.Point(325, 23)
+        Me.GroupBox1.Location = New System.Drawing.Point(327, 81)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(371, 335)
         Me.GroupBox1.TabIndex = 6
@@ -131,8 +131,8 @@ Partial Class Form1
         'GroupBox2
         '
         Me.GroupBox2.Controls.Add(Me.DataGridView1)
-        Me.GroupBox2.Controls.Add(Me.Button1)
-        Me.GroupBox2.Location = New System.Drawing.Point(12, 23)
+        Me.GroupBox2.Controls.Add(Me.Button3)
+        Me.GroupBox2.Location = New System.Drawing.Point(14, 81)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Size = New System.Drawing.Size(307, 328)
         Me.GroupBox2.TabIndex = 7
@@ -147,10 +147,10 @@ Partial Class Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(769, 428)
+        Me.ClientSize = New System.Drawing.Size(728, 428)
         Me.Controls.Add(Me.GroupBox2)
+        Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.GroupBox1)
-        Me.Controls.Add(Me.Button3)
         Me.Name = "Form1"
         Me.Text = "Connect to Excel"
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()

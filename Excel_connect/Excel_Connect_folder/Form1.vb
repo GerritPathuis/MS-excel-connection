@@ -75,19 +75,16 @@ Public Class Form1
         'Get the range where the starting cell has the address
         'm_sStartingCell and its dimensions are m_iNumRows x m_iNumCols.
         range = objSheet.Range("A1", Reflection.Missing.Value)
-        range = range.Resize(5, 1)
+        range = range.Resize(15, 2)
 
         'Create an array.
-        Dim saRet(5, 1) As String
+        Dim saRet(15, 2) As String
 
         'Fill the array.
-        Dim iRow As Long
-        Dim iCol As Long
-        For iRow = 0 To 5
-            For iCol = 0 To 1
-                'Put the row and column address in the cell.
-                saRet(iRow, iCol) = iRow.ToString() & "|" & iCol.ToString()
-            Next iCol
+        Dim random As New Random()
+        For iRow = 0 To 15
+            saRet(iRow, 0) = Random.Next(0, 50).ToString()
+            saRet(iRow, 1) = Random.Next(10, 150).ToString()
         Next iRow
 
         'Set the range value to the array.
@@ -157,27 +154,27 @@ Public Class Form1
         Dim xlApp As Excel.Application
         Dim xlBook As Excel.Workbook
         Dim xlSheet As Excel.Worksheet
+        Dim xl_filename As String = "C:\Repos\MS-excel-connection\Excel_connect\PSD_Typical_tst.xlsx"
 
         xlApp = New Excel.Application
-        xlBook = xlApp.Workbooks.Open(Filename:="C:\Repos\MS-excel-connection\Excel_connect\Typical_PSD.xlsx", IgnoreReadOnlyRecommended:=True, ReadOnly:=False, Editable:=True)
-        xlSheet = xlBook.Worksheets(1)
-        '  If DataGridView1.DataSource IsNot Nothing Then
-        Dim i, j As Integer
-        For i = 1 To DataGridView1.RowCount - 1
-            For j = 1 To DataGridView1.ColumnCount
-                xlSheet.Cells(i + 1, j) = "33"  ' DataGridView1.Rows(i - 1).Cells(j - 1).Value
+        If My.Computer.FileSystem.FileExists(xl_filename) Then
+            xlBook = xlApp.Workbooks.Open(xl_filename, IgnoreReadOnlyRecommended:=True, ReadOnly:=False, Editable:=True)
+            xlSheet = xlBook.Worksheets(1)
+            '  If DataGridView1.DataSource IsNot Nothing Then
+            Dim i, j As Integer
+            For i = 1 To DataGridView1.RowCount - 1
+                For j = 1 To DataGridView1.ColumnCount
+                    xlSheet.Cells(i + 1, j) = "33"  ' DataGridView1.Rows(i - 1).Cells(j - 1).Value
+                Next
             Next
-        Next
+        Else
+            MsgBox("File does not exist")
+        End If
+
         xlApp.Visible = True
         xlApp.UserControl = True
         xlApp.Quit()
         xlApp = Nothing
-        'Else
-        '    MsgBox("Le tableau est vide")
-        'End If
     End Sub
-
-
-
 
 End Class
