@@ -140,7 +140,7 @@ Public Class Form1
         DGV_to_file()
     End Sub
     Private Sub DGV_to_file()
-        Dim xl_filename As String = "C:\Repos\MS-excel-connection\Excel_connect\PSD_Typical_tst.xlsx"
+        Dim xl_filename As String = "C:\Temp\PSD_Typical_tst.xlsx"
         Dim xlApp As Excel.Application
         Dim xlBooks As Excel.Workbooks = Nothing
         Dim xlBook As Excel.Workbook = Nothing
@@ -162,8 +162,9 @@ Public Class Form1
             Next
         Next
 
-        ' xlBook.Close(SaveChanges:=True, xl_filename)
-        xlApp.SaveAs(xl_filename, Excel.XlFileFormat.xlOpenXMLWorkbook)
+
+        xlBook.SaveAs(xl_filename, Excel.XlFileFormat.xlOpenXMLWorkbook)
+        xlBook.Close(SaveChanges:=True, xl_filename)
 
         xlApp.Visible = True
         xlApp.UserControl = True
