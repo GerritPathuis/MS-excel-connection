@@ -140,28 +140,30 @@ Public Class Form1
         DGV_to_file()
     End Sub
     Private Sub DGV_to_file()
-        Dim xlApp As Excel.Application
-        Dim xlBook As Excel.Workbook
-        Dim xlSheet As Excel.Worksheet
         Dim xl_filename As String = "C:\Repos\MS-excel-connection\Excel_connect\PSD_Typical_tst.xlsx"
+        Dim xlApp As Excel.Application
+        Dim xlBooks As Excel.Workbooks = Nothing
+        Dim xlBook As Excel.Workbook = Nothing
+        Dim xlSheet As Excel.Worksheet = Nothing
+        'Dim range As Excel.Range = Nothing
 
-        xlApp = New Excel.Application
-        If My.Computer.FileSystem.FileExists(xl_filename) Then
-            xlBook = xlApp.Workbooks.Open(xl_filename, IgnoreReadOnlyRecommended:=True, ReadOnly:=False, Editable:=True)
-            xlSheet = CType(xlBook.ActiveSheet, Excel.Worksheet)
-            xlSheet.Name = "DGV_to_file"
+        ' Create a new instance of Excel and start a new workbook.
+        xlApp = New Excel.Application()
+        xlBooks = xlApp.Workbooks
+        xlBook = xlBooks.Add()
+        xlSheet = CType(xlBook.ActiveSheet, Excel.Worksheet)
+        xlSheet.Name = "DGV_to_file"
 
-            '  If DataGridView1.DataSource IsNot Nothing Then
-            Dim i, j As Integer
-            For i = 1 To DataGridView1.RowCount - 1
-                For j = 1 To DataGridView1.ColumnCount
-                    xlSheet.Cells(i + 1, j) = "33"  ' DataGridView1.Rows(i - 1).Cells(j - 1).Value
-                Next
+        '  If DataGridView1.DataSource IsNot Nothing Then
+        Dim i, j As Integer
+        For i = 1 To DataGridView1.RowCount - 1
+            For j = 1 To DataGridView1.ColumnCount
+                xlSheet.Cells(i + 1, j) = "33"  ' DataGridView1.Rows(i - 1).Cells(j - 1).Value
             Next
-            xlBook.Close(SaveChanges:=True)
-        Else
-            MsgBox("File does not exist")
-        End If
+        Next
+
+        ' xlBook.Close(SaveChanges:=True, xl_filename)
+        xlApp.SaveAs(xl_filename, Excel.XlFileFormat.xlOpenXMLWorkbook)
 
         xlApp.Visible = True
         xlApp.UserControl = True
