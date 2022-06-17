@@ -10,7 +10,9 @@ Public Class Form1
     Dim objApp As Excel.Application
     Dim objBook As Excel._Workbook
 
+
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
         With DataGridView1
             .ColumnCount = 3
             .Rows.Clear()
@@ -39,8 +41,6 @@ Public Class Form1
             .Columns(2).HeaderText = "H3"
         End With
     End Sub
-
-
     Private Sub Button1_Click(ByVal sender As System.Object,
       ByVal e As System.EventArgs) Handles Button1.Click
         Save_excel_file()
@@ -109,14 +109,22 @@ Public Class Form1
             xlWorkBook = xlApp.Workbooks.Open(xl_filename, IgnoreReadOnlyRecommended:=True, ReadOnly:=False, Editable:=True)
             xlSheet = xlWorkBook.Worksheets(1)
 
-            range = xlSheet.Range("A2", "B14")          'Get a range of data.
+            range = xlSheet.Range("A2", "B300")         'Get a range of data.
             saRet = range.Value                         'Retrieve the data from the range.
+
+            '---- Lose the empty cells --
+            Dim colcnt As Integer
+            For rowC = 1 To saRet.GetUpperBound(0)
+                If Not String.IsNullOrEmpty(saRet(rowC, 1)) Then
+                    colcnt += 1
+                End If
+            Next
 
             '---- Write the retrieved data to the DGV -----
             With DataGridView2
                 .Rows.Clear()
-                .Rows.Add(saRet.GetUpperBound(0))       'Resize the dgv
-                For rowC = 1 To saRet.GetUpperBound(0)
+                .Rows.Add(colcnt)       'Resize the dgv
+                For rowC = 1 To colcnt
                     For colC = 1 To saRet.GetUpperBound(1)
                         .Rows(rowC - 1).Cells(colC - 1).Value = saRet(rowC, colC)
                     Next
