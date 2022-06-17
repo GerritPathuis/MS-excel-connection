@@ -27,6 +27,17 @@ Public Class Form1
                 .Rows(i).Cells(2).Value = "02"
             Next
         End With
+
+        With DataGridView2
+            .ColumnCount = 3
+            .Rows.Clear()
+            .Rows.Add(4)
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+
+            .Columns(0).HeaderText = "H1"
+            .Columns(1).HeaderText = "H2"
+            .Columns(2).HeaderText = "H3"
+        End With
     End Sub
 
 
@@ -85,63 +96,47 @@ Public Class Form1
     End Sub
 
     Private Sub Retrieve_file()
+        Dim xlApp As New Excel.Application
+        Dim xlWorkBook As Excel.Workbook
         Dim objSheets As Excel.Sheets
-        Dim objSheet As Excel._Worksheet
+        Dim xlSheet As Excel._Worksheet
         Dim range As Excel.Range
-
-        'Get a reference to the first sheet of the workbook.
-
-        objSheets = objBook.Worksheets
-        objSheet = objSheets(1)
-
-        'If (Not (Err.Number = 0)) Then
-        '    MessageBox.Show("Cannot find the Excel workbook.  Try clicking Button1 to " &
-        '    "create an Excel workbook with data before running Button2.",
-        '    "Missing Workbook?")
-
-        '    'We cannot automate Excel if we cannot find the data we created, 
-        '    'so leave the subroutine.
-
-        'End If
-
-        'Get a range of data.
-        range = objSheet.Range("A1", "E5")
-
-        'Retrieve the data from the range.
+        Dim xl_filename As String = "C:\Repos\MS-excel-connection\Excel_connect\Typical_PSD2.xlsx"
         Dim saRet As Object(,)
-        saRet = range.Value
 
-        'Determine the dimensions of the array.
-        Dim iRows As Long
-        Dim iCols As Long
-        iRows = saRet.GetUpperBound(0)
-        iCols = saRet.GetUpperBound(1)
+        If My.Computer.FileSystem.FileExists(xl_filename) Then
+            xlApp = New Excel.Application
+            xlWorkBook = xlApp.Workbooks.Open(xl_filename, IgnoreReadOnlyRecommended:=True, ReadOnly:=False, Editable:=True)
+            xlSheet = xlWorkBook.Worksheets(1)
 
-        'Build a string that contains the data of the array.
-        Dim valueString As String
-        valueString = "Array Data" & vbCrLf
+            range = xlSheet.Range("A2", "B15")      'Get a range of data.
+            saRet = range.Value                     'Retrieve the data from the range.
 
-        Dim rowCounter As Long
-        Dim colCounter As Long
-        For rowCounter = 1 To iRows
-            For colCounter = 1 To iCols
+            'Determine the dimensions of the array.
+            Dim iRows As Long
+            Dim iCols As Long
+            iRows = saRet.GetUpperBound(0)
+            iCols = saRet.GetUpperBound(1)
 
-                'Write the next value into the string.
-                valueString = String.Concat(valueString,
-                    saRet(rowCounter, colCounter).ToString() & ", ")
+            '---- Write the retrieved data to the DGV -----
+            With DataGridView2
+                .Rows.Clear()
+                .Rows.Add(iCols)       'Resize the dgv
 
-            Next colCounter
-
-            'Write in a new line.
-            valueString = String.Concat(valueString, vbCrLf)
-        Next rowCounter
-
-        'Report the value of the array.
-        MessageBox.Show(valueString, "Array Values")
+                Dim rowC, colC As Integer
+                For rowCounter = 1 To iRows
+                    For colCounter = 1 To iCols
+                        .Rows(rowC).Cells(colC).Value = saRet(rowC, colC)
+                    Next colCounter
+                Next rowCounter
+            End With
+        Else
+            MsgBox("File does not exist")
+        End If
 
         'Clean up a little.
         range = Nothing
-        objSheet = Nothing
+        xlSheet = Nothing
         objSheets = Nothing
     End Sub
 
@@ -155,15 +150,15 @@ Public Class Form1
         xlSheet = xlBook.Worksheets(1)
         '  If DataGridView1.DataSource IsNot Nothing Then
         Dim i, j As Integer
-            For i = 1 To DataGridView1.RowCount - 1
-                For j = 1 To DataGridView1.ColumnCount
+        For i = 1 To DataGridView1.RowCount - 1
+            For j = 1 To DataGridView1.ColumnCount
                 xlSheet.Cells(i + 1, j) = "33"  ' DataGridView1.Rows(i - 1).Cells(j - 1).Value
             Next
-            Next
-            xlApp.Visible = True
-            xlApp.UserControl = True
-            xlApp.Quit()
-            xlApp = Nothing
+        Next
+        xlApp.Visible = True
+        xlApp.UserControl = True
+        xlApp.Quit()
+        xlApp = Nothing
         'Else
         '    MsgBox("Le tableau est vide")
         'End If
