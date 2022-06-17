@@ -8,10 +8,10 @@ Public Class Form1
     'Keep the application object and the workbook object global, so you can  
     'retrieve the data in Button2_Click that was set in Button1_Click.
     'https://social.msdn.microsoft.com/Forums/vstudio/en-US/03d76f3d-b91a-4707-89ce-ab752c6823e2/excel-workbook-problem-in-vbnet?forum=exceldev
-    Dim xlApp As Excel.Application
-    Dim xlbook As Excel._Workbook
-    ReadOnly xlbooks As Excel.Workbooks
-    ReadOnly xlSheets As Excel.Sheets
+    ReadOnly xlApp As Excel.Application
+    ReadOnly xlbook As Excel.Workbook
+    'ReadOnly xlbooks As Excel.Workbooks
+    'ReadOnly xlSheets As Excel.Sheets
 
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -63,17 +63,18 @@ Public Class Form1
     End Sub
 
     Private Sub Save_excel_file()
-        Dim xlBooks As Excel.Workbooks
-        Dim xlSheets As Excel.Sheets
-        Dim xlSheet As Excel._Worksheet
-        Dim range As Excel.Range
+        Dim xlApp As Excel.Application
+        Dim xlBooks As Excel.Workbooks = Nothing
+        Dim xlBook As Excel.Workbook = Nothing
+        Dim xlSheet As Excel.Worksheet = Nothing
+        Dim range As Excel.Range = Nothing
 
         ' Create a new instance of Excel and start a new workbook.
         xlApp = New Excel.Application()
         xlBooks = xlApp.Workbooks
-        xlbook = xlbooks.Add
-        xlSheets = xlbook.Worksheets
-        xlSheet = xlSheets(1)
+        xlBook = xlBooks.Add()
+        xlSheet = CType(xlBook.ActiveSheet, Excel.Worksheet)
+        xlSheet.Name = "Save_excel_file"
 
         'Get the range where the starting cell has the address
         'm_sStartingCell and its dimensions are m_iNumRows x m_iNumCols.
@@ -86,8 +87,8 @@ Public Class Form1
         'Fill the array.
         Dim random As New Random()
         For iRow = 0 To 15
-            saRet(iRow, 0) = Random.Next(0, 50).ToString()
-            saRet(iRow, 1) = Random.Next(10, 150).ToString()
+            saRet(iRow, 0) = random.Next(0, 50).ToString()
+            saRet(iRow, 1) = random.Next(10, 150).ToString()
         Next iRow
 
         'Set the range value to the array.
@@ -98,32 +99,35 @@ Public Class Form1
         xlApp.UserControl = True
 
         'Clean up a little.
-        range = Nothing
-        xlSheet = Nothing
-        xlSheets = Nothing
-        xlBooks = Nothing
+        'range = Nothing
+        'xlSheet = Nothing
+        'xlSheets = Nothing
+        'xlBooks = Nothing
     End Sub
 
     Private Sub Retrieve_xls_file(xl_filename As String)
         Dim xlApp As New Excel.Application
-        Dim xlWorkBook As Excel.Workbook
-        Dim xlSheets As Excel.Sheets
-        Dim xlSheet As Excel._Worksheet
+        Dim xlBook As Excel.Workbook
+        Dim xlSheet As Excel.Worksheet
         Dim range As Excel.Range
         Dim saRet As Object(,)
 
         If My.Computer.FileSystem.FileExists(xl_filename) Then
             xlApp = New Excel.Application
-            xlWorkBook = xlApp.Workbooks.Open(xl_filename, IgnoreReadOnlyRecommended:=True, ReadOnly:=False, Editable:=True)
-            xlSheet = xlWorkBook.Worksheets(1)
+            xlBook = xlApp.Workbooks.Open(xl_filename, IgnoreReadOnlyRecommended:=True, ReadOnly:=False, Editable:=True)
+            xlSheet = CType(xlBook.ActiveSheet, Excel.Worksheet)
+            xlSheet.Name = "Retrieve_xls_file"
 
             range = xlSheet.Range("A2", "B300")         'Get a range of data.
-            saRet = range.Value                         'Retrieve the data from the range.
+            saRet = CType(range.Value, Object(,))       'Retrieve the data from the range.
 
             '---- Lose the empty cells --
             Dim colcnt As Integer
+            Dim st As String
+
             For rowC = 1 To saRet.GetUpperBound(0)
-                If Not String.IsNullOrEmpty(saRet(rowC, 1)) Then
+                st = saRet(rowC, 1).ToString()
+                If st.Length > 0 Then
                     colcnt += 1
                 End If
             Next
@@ -139,15 +143,15 @@ Public Class Form1
                 Next
             End With
 
-            xlWorkBook.Close(SaveChanges:=False)
+            xlBook.Close(SaveChanges:=False)
         Else
             MsgBox("File does not exist")
         End If
 
         'Clean up a little.
-        range = Nothing
-        xlSheet = Nothing
-        xlSheets = Nothing
+        'range = Nothing
+        'xlSheet = Nothing
+        'xlSheets = Nothing
     End Sub
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
         DGV_to_file()
@@ -161,7 +165,9 @@ Public Class Form1
         xlApp = New Excel.Application
         If My.Computer.FileSystem.FileExists(xl_filename) Then
             xlBook = xlApp.Workbooks.Open(xl_filename, IgnoreReadOnlyRecommended:=True, ReadOnly:=False, Editable:=True)
-            xlSheet = xlBook.Worksheets(1)
+            xlSheet = CType(xlBook.ActiveSheet, Excel.Worksheet)
+            xlSheet.Name = "DGV_to_file"
+
             '  If DataGridView1.DataSource IsNot Nothing Then
             Dim i, j As Integer
             For i = 1 To DataGridView1.RowCount - 1
