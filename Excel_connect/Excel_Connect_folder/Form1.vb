@@ -154,12 +154,10 @@ Public Class Form1
         xlSheet = CType(xlBook.ActiveSheet, Excel.Worksheet)
         xlSheet.Name = "DGV_to_file"
 
-        '  If DataGridView1.DataSource IsNot Nothing Then
-        Dim i, j As Integer
+
         For i = 1 To DataGridView1.RowCount - 1
-            For j = 1 To DataGridView1.ColumnCount
-                xlSheet.Cells(i + 1, j) = "33"  ' DataGridView1.Rows(i - 1).Cells(j - 1).Value
-            Next
+            xlSheet.Cells("A" & i) = "1" 'DataGridView1.Rows(i).Cells(0).Value.ToString
+            xlSheet.Cells("B" & i) = "2" 'DataGridView1.Rows(i).Cells(1).Value.ToString
         Next
 
 
