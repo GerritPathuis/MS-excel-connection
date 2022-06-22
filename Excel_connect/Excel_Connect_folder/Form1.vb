@@ -145,7 +145,7 @@ Public Class Form1
         Dim xlBooks As Excel.Workbooks = Nothing
         Dim xlBook As Excel.Workbook = Nothing
         Dim xlSheet As Excel.Worksheet = Nothing
-        'Dim range As Excel.Range = Nothing
+        Dim saRet(100, 2) As String
 
         ' Create a new instance of Excel and start a new workbook.
         xlApp = New Excel.Application()
@@ -154,12 +154,12 @@ Public Class Form1
         xlSheet = CType(xlBook.ActiveSheet, Excel.Worksheet)
         xlSheet.Name = "DGV_to_file"
 
-
         For i = 1 To DataGridView1.RowCount - 1
-            xlSheet.Cells("A" & i) = "1" 'DataGridView1.Rows(i).Cells(0).Value.ToString
-            xlSheet.Cells("B" & i) = "2" 'DataGridView1.Rows(i).Cells(1).Value.ToString
+            saRet(i, 0) = DataGridView1.Rows(i).Cells(0).Value.ToString
+            saRet(i, 1) = DataGridView1.Rows(i).Cells(1).Value.ToString
         Next
 
+        xlSheet.Range("A2", "B2").Value = saRet       'Set range for data.
 
         xlBook.SaveAs(xl_filename, Excel.XlFileFormat.xlOpenXMLWorkbook)
         xlBook.Close(SaveChanges:=True, xl_filename)
