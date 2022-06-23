@@ -19,9 +19,9 @@ Public Class Form1
             .Columns(2).HeaderText = "H3"
 
             For i = 0 To .RowCount - 1
-                .Rows(i).Cells(0).Value = "00"
-                .Rows(i).Cells(1).Value = "01"
-                .Rows(i).Cells(2).Value = "02"
+                .Rows(i).Cells(0).Value = i * 10 + 0
+                .Rows(i).Cells(1).Value = i * 10 + 1
+                .Rows(i).Cells(2).Value = i * 10 + 2
             Next
         End With
 
@@ -159,7 +159,7 @@ Public Class Form1
             saRet(i, 1) = DataGridView1.Rows(i).Cells(1).Value.ToString
         Next
 
-        xlSheet.Range("A2", "B2").Value = saRet       'Set range for data.
+        xlSheet.Range("A2", "B200").Value = saRet       'Set range for data.
 
         xlBook.SaveAs(xl_filename, Excel.XlFileFormat.xlOpenXMLWorkbook)
         xlBook.Close(SaveChanges:=True, xl_filename)
